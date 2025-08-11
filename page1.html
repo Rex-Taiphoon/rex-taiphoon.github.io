@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Taiphoon Docs — GitHub Pages Template</title>
+  <meta name="description" content="A lightweight docs template for GitHub Pages with a sidebar, navbar, search, dark mode, and scrollspy.">
+  <style>
+    /* ======= CSS VARIABLES ======= */
+    :root{
+      --bg: #ffffff;
+      --text:#0f172a; /* slate-900 */
+      --muted:#475569; /* slate-600 */
+      --border:#e2e8f0; /* slate-200 */
+      --primary:#2563eb; /* blue-600 */
+      --primary-weak:#eff6ff; /* blue-50 */
+      --card:#f8fafc; /* slate-50 */
+      --shadow: 0 10px 30px rgba(2,6,23,0.06);
+      --radius: 16px;
+    }
+    .dark{
+      --bg:#0b1220;
+      --text:#e5e7eb;
+      --muted:#94a3b8;
+      --border:#1f2937;
+      --primary:#60a5fa;
+      --primary-weak:#0b1b36;
+      --card:#0f172a;
+      --shadow: 0 10px 30px rgba(0,0,0,0.35);
+    }
+
+    /* ======= GLOBAL ======= */
+    html{scroll-behavior:smooth;}
+    body{
+      margin:0; background:var(--bg); color:var(--text);
+      font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    }
+    a{color:var(--primary); text-decoration:none}
+    a:hover{text-decoration:underline}
+    code, pre{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+    img{max-width:100%; border-radius:12px}
+
+    /* ======= LAYOUT ======= */
+    .layout{display:grid; grid-template-columns: 280px 1fr; min-height:100vh}
+    @media (max-width: 980px){
+      .layout{grid-template-columns: 1fr}
+    }
+
+    /* ======= NAVBAR ======= */
+    .navbar{
+      position:sticky; top:0; z-index:50;
+      display:flex; align-items:center; gap:12px;
+      padding:10px 16px; border-bottom:1px solid var(--border); background:rgba(255,255,255,0.6);
+      backdrop-filter:saturate(180%) blur(10px);
+    }
+    .dark .navbar{background:rgba(11,18,32,0.6)}
+    .brand{display:flex; align-items:center; gap:10px; font-weight:700}
+    .brand .logo{width:28px; height:28px; border-radius:8px; background:linear-gradient(135deg, var(--primary), #22d3ee)}
+    .navbar .spacer{flex:1}
+    .navbar .search{position:relative; max-width:480px; flex:1}
+    .navbar input[type="search"]{
+      width:100%; padding:10px 36px 10px 12px; border-radius:12px; border:1px solid var(--border); background:var(--bg); color:var(--text);
+      outline:none;
+    }
+    .navbar .kbd{position:absolute; right:10px; top:50%; transform:translateY(-50%); font-size:12px; color:var(--muted); border:1px solid var(--border); border-bottom-width:2px; padding:1px 6px; border-radius:6px}
+    .iconbtn{border:1px solid var(--border); background:var(--card); padding:8px 10px; border-radius:12px; cursor:pointer}
+    .iconbtn:hover{box-shadow:var(--shadow)}
+    .icon{width:18px; height:18px; display:inline-block}
+
+    /* ======= SIDEBAR ======= */
+    .sidebar{
+      position:sticky; top:58px; align-self:start; height:calc(100vh - 58px);
+      padding:14px; border-right:1px solid var(--border); background:var(--bg); overflow:auto
+    }
+    .sidebar .section{margin-bottom:12px; border:1px solid var(--border); border-radius:14px; background:var(--card)}
+    .sidebar details{border-bottom:1px dashed var(--border)}
+    .sidebar details:last-child{border-bottom:none}
+    .sidebar summary{cursor:pointer; list-style:none; padding:10px 12px; font-weight:600}
+    .sidebar summary::-webkit-details-marker{display:none}
+    .sidebar .links{display:flex; flex-direction:column}
+    .sidebar a{padding:8px 12px; border-left:3px solid transparent}
+    .sidebar a.active{background:var(--primary-weak); border-color:var(--primary); border-radius:12px}
+    .sidebar .muted{color:var(--muted); font-size:12px; padding:8px 12px}
+
+    /* Mobile sidebar */
+    .mobile-toggle{display:none}
+    @media (max-width: 980px){
+      .sidebar{position:fixed; left:0; top:56px; width:86%; max-width:320px; transform:translateX(-105%); transition:transform .25s ease; box-shadow:var(--shadow); height:calc(100vh - 56px); z-index:40}
+      body.menu-open .sidebar{transform:none}
+      .mobile-toggle{display:inline-block}
+    }
+
+    /* ======= MAIN CONTENT ======= */
+    main{padding:28px 28px 80px}
+    .content{max-width: 980px; margin:0 auto}
+    .hero{display:flex; gap:20px; align-items:center; padding:24px; background:linear-gradient( to right, var(--primary-weak), transparent ); border:1px solid var(--border); border-radius:var(--radius)}
+    h1{font-size:32px; line-height:1.2; margin:0 0 6px}
+    h2{font-size:24px; margin-top:40px}
+    h3{font-size:20px; margin-top:28px}
+    p{margin:10px 0}
+    .card{border:1px solid var(--border); background:var(--card); padding:16px; border-radius:var(--radius); box-shadow:var(--shadow)}
+    .grid{display:grid; gap:14px}
+    .grid.cols-3{grid-template-columns: repeat(3, 1fr)}
+    @media (max-width: 980px){.grid.cols-3{grid-template-columns:1fr}}
+    pre{background: #0a0f1c; color:#e5e7eb; padding:16px; border-radius:12px; overflow:auto}
+    .note{border-left:4px solid var(--primary); background:var(--primary-weak); padding:12px; border-radius:12px}
+    .footer{margin-top:50px; padding-top:14px; border-top:1px solid var(--border); color:var(--muted)}
+  </style>
+</head>
+<body>
+  <!-- ======= NAVBAR ======= -->
+  <header class="navbar" role="navigation">
+    <button class="iconbtn mobile-toggle" id="btnMenu" aria-label="Toggle menu" title="目錄">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 6h16M4 12h16M4 18h16" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <a class="brand" href="#top" aria-label="Home">
+      <span class="logo"></span>
+      <span>Taiphoon Docs</span>
+    </a>
+    <div class="spacer"></div>
+    <div class="search" role="search">
+      <input id="searchBox" type="search" placeholder="搜尋側邊欄… (/)">
+      <span class="kbd">/</span>
+    </div>
+    <button id="btnTheme" class="iconbtn" aria-label="Toggle theme">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364 6.364-1.414-1.414M7.05 7.05 5.636 5.636m12.728 0-1.414 1.414M7.05 16.95l-1.414 1.414" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <a class="iconbtn" href="https://github.com/your-org/your-repo" target="_blank" rel="noopener" title="GitHub">
+      <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.486 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.01-1.022-.014-1.854-2.782.605-3.369-1.19-3.369-1.19-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.607.069-.607 1.004.07 1.532 1.033 1.532 1.033.892 1.53 2.341 1.088 2.91.833.091-.647.35-1.088.636-1.338-2.22-.253-4.555-1.114-4.555-4.956 0-1.095.39-1.991 1.029-2.693-.103-.253-.446-1.27.098-2.647 0 0 .84-.27 2.75 1.027A9.564 9.564 0 0 1 12 6.844a9.56 9.56 0 0 1 2.504.337c1.909-1.297 2.748-1.027 2.748-1.027.545 1.377.202 2.394.1 2.647.64.702 1.028 1.598 1.028 2.693 0 3.852-2.338 4.7-4.566 4.948.359.309.678.919.678 1.852 0 1.336-.012 2.414-.012 2.74 0 .268.18.58.688.481A10.02 10.02 0 0 0 22 12.017C22 6.486 17.523 2 12 2Z"/></svg>
+    </a>
+  </header>
+
+  <div class="layout">
+    <!-- ======= SIDEBAR ======= -->
+    <aside class="sidebar" id="sidebar" aria-label="側邊欄">
+      <div class="section">
+        <div class="muted">快速導覽</div>
+        <div class="links" id="quickLinks">
+          <a href="#intro">介紹</a>
+          <a href="#getting-started">開始使用</a>
+          <a href="#structure">目錄結構</a>
+          <a href="#customize">自訂樣式</a>
+          <a href="#deploy">部署到 GitHub Pages</a>
+          <a href="#faq">常見問題</a>
+          <a href="#changelog">更新記錄</a>
+        </div>
+      </div>
+      <div class="section">
+        <details open>
+          <summary>指南</summary>
+          <div class="links">
+            <a href="#sidebar" data-group="指南">側邊欄設定</a>
+            <a href="#navbar" data-group="指南">Navbar 設定</a>
+            <a href="#search" data-group="指南">搜尋與快捷鍵</a>
+            <a href="#darkmode" data-group="指南">暗色模式</a>
+          </div>
+        </details>
+        <details>
+          <summary>範例頁面</summary>
+          <div class="links">
+            <a href="#example-1">硬體規格</a>
+            <a href="#example-2">韌體建置</a>
+            <a href="#example-3">故障排除</a>
+          </div>
+        </details>
+      </div>
+    </aside>
+
+    <!-- ======= MAIN ======= -->
+    <main id="top">
+      <div class="content">
+        <section class="hero" id="intro">
+          <div>
+            <h1>輕量級文件網站範本</h1>
+            <p>這是一個<strong>單一 HTML 檔</strong>即可放上 GitHub Pages 的文件網站樣板，具備：側邊欄、Navbar、搜尋、暗色模式、行動裝置支援與捲動高亮（scrollspy）。</p>
+            <p class="note">提示：將此檔案命名為 <code>index.html</code> 放進 <code>docs/</code> 目錄或根目錄，並在 GitHub Pages 指向該路徑即可。</p>
+          </div>
+        </section>
+
+        <h2 id="getting-started">開始使用</h2>
+        <ol class="card">
+          <li>在你的 repo 建立 <code>docs/</code> 資料夾（或用根目錄）。</li>
+          <li>把此檔案存為 <code>docs/index.html</code>。</li>
+          <li>到 GitHub：<em>Settings → Pages</em>，選擇 Branch 與資料夾（root 或 <code>/docs</code>）。</li>
+          <li>約數十秒後，造訪你的 Pages 網址即可看到網站。</li>
+        </ol>
+
+        <h2 id="structure">目錄結構</h2>
+        <pre><code>your-repo/
+├─ docs/
+│  └─ index.html   ← 就放這個檔
+└─ README.md
+</code></pre>
+
+        <h2 id="customize">自訂樣式</h2>
+        <p>調整上方 <code>:root</code> 與 <code>.dark</code> 的 CSS 變數即可換色。<br>想要新增章節，只需在側邊欄加入連結，並在主內容處放對應的 <code>id</code> 標題。</p>
+
+        <h2 id="deploy">部署到 GitHub Pages</h2>
+        <div class="card">
+          <p>此範本無需任何建置工具與外部相依。部署步驟：</p>
+          <ul>
+            <li>把檔案推到 <code>main</code> 或你設定的 Pages 分支。</li>
+            <li>設定 Pages 指向 <code>/docs</code> 或 root。</li>
+            <li>如需自訂網域，將 CNAME 指向 GitHub Pages 提供的 domain。</li>
+          </ul>
+        </div>
+
+        <h2 id="faq">常見問題</h2>
+        <div class="grid cols-3">
+          <div class="card">
+            <h3 id="sidebar">如何調整側邊欄？</h3>
+            <p>修改 <code>&lt;aside&gt;</code> 中的連結。群組可用 <code>&lt;details&gt;</code>/<code>&lt;summary&gt;</code> 建立可收合的分節。</p>
+          </div>
+          <div class="card">
+            <h3 id="navbar">如何更換 Navbar 內容？</h3>
+            <p>在頂部 <code>&lt;header class="navbar"&gt;</code> 內替換品牌、GitHub 連結等。</p>
+          </div>
+          <div class="card">
+            <h3 id="search">搜尋怎麼用？</h3>
+            <p>上方搜尋框會即時過濾側邊欄連結。按 <kbd>/</kbd> 可快速聚焦。</p>
+          </div>
+          <div class="card">
+            <h3 id="darkmode">暗色模式？</h3>
+            <p>右上角按鈕切換，並會儲存到 <code>localStorage</code>。</p>
+          </div>
+        </div>
+
+        <h2>更多範例區塊</h2>
+        <h3 id="example-1">硬體規格</h3>
+        <p>以條列卡片呈現：</p>
+        <div class="grid cols-3">
+          <div class="card"><strong>MCU：</strong> STM32H743</div>
+          <div class="card"><strong>IMU：</strong> ICM45686</div>
+          <div class="card"><strong>Baro：</strong> BMP390</div>
+          <div class="card"><strong>Mag：</strong> BMM350</div>
+          <div class="card"><strong>電源：</strong> 3–8S</div>
+          <div class="card"><strong>介面：</strong> CAN / UART / I²C / Ethernet</div>
+        </div>
+
+        <h3 id="example-2">韌體建置</h3>
+        <pre><code># 切換到 ArduPilot 原始碼
+cd ~/ardupilot
+
+# 建置 Bootloader
+./Tools/scripts/build_bootloaders.py Morakot
+
+# 設定與建置
+./waf configure --board Morakot-Mini --default-parameters='default.parm'
+./waf copter
+</code></pre>
+
+        <h3 id="example-3">故障排除</h3>
+        <ul>
+          <li>USB 無法辨識：檢查 VBUS 偵測與 OTG 設定。</li>
+          <li>IMU 初始化失敗：確認 SPI 速率與 CS 腳位。</li>
+          <li>DFU 模式：BOOT0 拉高並重置，或用軟體進入。</li>
+        </ul>
+
+        <h2 id="changelog">更新記錄</h2>
+        <ul>
+          <li><strong>v1.0</strong> — 初版釋出（側邊欄、Navbar、搜尋、暗色模式、RWD）。</li>
+        </ul>
+
+        <div class="footer">
+          <p>© <span id="year"></span> Taiphoon. 以 GitHub Pages 發佈。</p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // ======= UTIL =======
+    const $ = (q, el=document) => el.querySelector(q);
+    const $$ = (q, el=document) => Array.from(el.querySelectorAll(q));
+
+    // ======= THEME =======
+    const root = document.documentElement;
+    const savedTheme = localStorage.getItem('theme');
+    if(savedTheme === 'dark'){ root.classList.add('dark'); }
+    $('#btnTheme').addEventListener('click', () => {
+      root.classList.toggle('dark');
+      localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
+    });
+
+    // ======= MOBILE MENU =======
+    $('#btnMenu').addEventListener('click', () => {
+      document.body.classList.toggle('menu-open');
+    });
+    // close sidebar on link click (mobile)
+    $$('#sidebar a').forEach(a => a.addEventListener('click', () => {
+      document.body.classList.remove('menu-open');
+    }));
+
+    // ======= SEARCH (filters sidebar links) =======
+    const search = $('#searchBox');
+    const allLinks = $$('#sidebar .links a');
+    const quickLinks = $('#quickLinks');
+    function filterLinks(q){
+      const term = q.trim().toLowerCase();
+      let shown = 0;
+      allLinks.forEach(a => {
+        const match = a.textContent.toLowerCase().includes(term);
+        a.style.display = match ? '' : 'none';
+        if(match) shown++;
+      });
+      quickLinks.style.display = term ? 'none' : '';
+    }
+    search.addEventListener('input', e => filterLinks(e.target.value));
+    // keyboard focus with '/'
+    window.addEventListener('keydown', e => {
+      if(e.key === '/' && document.activeElement !== search){
+        e.preventDefault(); search.focus();
+      }
+    });
+
+    // ======= SCROLLSPY =======
+    const headings = $$('main .content h2, main .content h3, section.hero');
+    const linksById = {};
+    allLinks.forEach(a => { if(a.hash) linksById[a.hash.slice(1)] = a; });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        const id = entry.target.id;
+        const link = linksById[id];
+        if(!link) return;
+        if(entry.isIntersecting){
+          // clear and set
+          $$('#sidebar a.active').forEach(el => el.classList.remove('active'));
+          link.classList.add('active');
+          // expand parent <details>
+          const details = link.closest('details');
+          if(details) details.open = true;
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0.01 });
+
+    headings.forEach(h => observer.observe(h));
+
+    // ======= MISC =======
+    $('#year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
